@@ -279,13 +279,13 @@ static void WalletTutorialsInit()
     g_tutorials[WALLET_LIST_LEAP].items[0].qrUrl =  _("connect_leap_link");
 
 
-    // todo add multi language support
+    // WALLET_LIST_BEGIN
     g_tutorials[WALLET_LIST_BEGIN].len = 1;
     g_tutorials[WALLET_LIST_BEGIN].desc = _("connect_wallet_desc");
-    g_tutorials[WALLET_LIST_BEGIN].items[0].walletName = "Begin";
-    g_tutorials[WALLET_LIST_BEGIN].items[0].url = "https://keyst.one/t/3rd/begin";
-    g_tutorials[WALLET_LIST_BEGIN].items[0].qrTitle = "Begin";
-    g_tutorials[WALLET_LIST_BEGIN].items[0].qrUrl = "https://keyst.one/t/3rd/begin";
+    g_tutorials[WALLET_LIST_BEGIN].items[0].walletName = _("toturial_begin_title");
+    g_tutorials[WALLET_LIST_BEGIN].items[0].url = _("toturial_begin_link");
+    g_tutorials[WALLET_LIST_BEGIN].items[0].qrTitle = _("toturial_begin_title");
+    g_tutorials[WALLET_LIST_BEGIN].items[0].qrUrl = _("toturial_begin_link");
 #else
     g_tutorials[WALLET_LIST_BLUE].len = 1;
     g_tutorials[WALLET_LIST_BLUE].desc = _("connect_wallet_desc");
