@@ -290,6 +290,7 @@ LV_IMG_DECLARE(walletListUniSat);
 LV_IMG_DECLARE(walletListTonkeeper);
 LV_IMG_DECLARE(walletListKeystone);
 LV_IMG_DECLARE(walletListThorWallet);
+LV_IMG_DECLARE(walletListHelium);
 
 LV_IMG_DECLARE(walletListBtcBlue);
 LV_IMG_DECLARE(walletListBtcSpecter);

@@ -109,6 +109,7 @@ const static CoinWalletInfo_t g_walletBtn[] = {
     {WALLET_LIST_IMTOKEN, "imToken", &walletImToken},
     {WALLET_LIST_BLOCK_WALLET, "Block Wallet", &walletBlockWallet},
     {WALLET_LIST_ZAPPER, "Zapper", &walletZapper},
+    {WALLET_LIST_HELIUM, "Helium", &walletSolflare},
     {WALLET_LIST_YEARN_FINANCE, "Yearn Finance", &walletYearn},
     {WALLET_LIST_SUSHISWAP, "SushiSwap", &walletSushi},
     {WALLET_LIST_KEPLR, "Keplr", &walletKeplr},
@@ -119,7 +120,7 @@ const static CoinWalletInfo_t g_walletBtn[] = {
     {WALLET_LIST_XRP_TOOLKIT, "XRP Toolkit", &walletXRPToolkit},
     {WALLET_LIST_THORWALLET, "THORWallet", &walletThorWallet},
     {WALLET_LIST_TONKEEPER, "Tonkeeper", &walletTonkeeper},
-    {WALLET_LIST_LEAP, "Leap", &walletLeap}
+    {WALLET_LIST_LEAP, "Leap", &walletLeap},
 #else
     {WALLET_LIST_BLUE, "BlueWallet", &walletBluewallet},
     {WALLET_LIST_SPECTER, "Specter", &walletSpecter},

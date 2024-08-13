@@ -59,6 +59,7 @@ WalletListItem_t g_walletListArray[] = {
     {WALLET_LIST_IMTOKEN, &walletListImToken, true},
     {WALLET_LIST_FEWCHA, &walletListFewcha, true},
     {WALLET_LIST_ZAPPER, &walletListZapper, true},
+    {WALLET_LIST_HELIUM, &walletListHelium, true},
     {WALLET_LIST_YEARN_FINANCE, &walletListYearn, true},
     {WALLET_LIST_SUSHISWAP, &walletListSushi, true},
 #else
@@ -225,6 +226,7 @@ static void AddBlueWalletCoins(void);
 static void AddFewchaCoins(void);
 static void AddKeplrCoins(void);
 static void AddSolflareCoins(void);
+static void AddHeliumWalletCoins(void);
 static void AddThorWalletCoins(void);
 static void ShowEgAddressCont(lv_obj_t *egCont);
 static uint32_t GetCurrentSelectedIndex();
@@ -347,6 +349,7 @@ static bool IsSOL(int walletIndex)
 {
     switch (walletIndex) {
     case WALLET_LIST_SOLFARE:
+    case WALLET_LIST_HELIUM:
         return true;
     default:
         return false;
@@ -429,7 +432,6 @@ static void ReturnShowQRHandler(lv_event_t *e)
 
 static void UpdateFewchaCoinStateHandler(lv_event_t *e)
 {
-
     lv_obj_t *checkBox = lv_event_get_target(e);
     for (int i = 0; i < FEWCHA_COINS_BUTT; i++) {
         g_tempFewchaCoinState[i].state =
@@ -1010,6 +1012,17 @@ static void AddSolflareCoins(void)
     }
 }
 
+static void AddHeliumWalletCoins(void)
+{
+    if (lv_obj_get_child_cnt(g_coinCont) > 0) {
+        lv_obj_clean(g_coinCont);
+    }
+    lv_obj_t * img = GuiCreateImg(g_coinCont, &coinSol);
+    lv_img_set_zoom(img, 110);
+    lv_img_set_pivot(img, 0, 0);
+    lv_obj_align(img, LV_ALIGN_TOP_LEFT, 0, 0);
+}
+
 static void AddBackpackWalletCoins(void)
 {
     if (lv_obj_get_child_cnt(g_coinCont) > 0) {
@@ -1158,6 +1171,11 @@ void GuiConnectWalletSetQrdata(WALLET_LIST_INDEX_ENUM index)
         func = GuiGetSolflareData;
         AddSolflareCoins();
         break;
+    case WALLET_LIST_HELIUM:
+        // todo helium qrcode is same as solflare
+        func = GuiGetSolflareData;
+        AddHeliumWalletCoins();
+        break;
     case WALLET_LIST_BACKPACK:
         func = GuiGetBackpackData;
         AddBackpackWalletCoins();
@@ -1281,6 +1299,8 @@ static int GetAccountType(void)
 {
     switch (g_connectWalletTileView.walletIndex) {
     case WALLET_LIST_SOLFARE:
+    // notice helium is same as solflare
+    case WALLET_LIST_HELIUM:
         return GetSolflareAccountType();
     default:
         return GetMetamaskAccountType();
@@ -1291,6 +1311,8 @@ static void SetAccountType(uint8_t index)
 {
     switch (g_connectWalletTileView.walletIndex) {
     case WALLET_LIST_SOLFARE:
+    // notice helium is same as solflare
+    case WALLET_LIST_HELIUM:
         g_currentSOLPathIndex[GetCurrentAccountIndex()] = index;
         break;
     default:
@@ -1444,6 +1466,7 @@ static void GetEgAddress(void)
 {
     switch (g_connectWalletTileView.walletIndex) {
     case WALLET_LIST_SOLFARE:
+    case WALLET_LIST_HELIUM:
         GetSolEgAddress();
         break;
     default:
@@ -1474,6 +1497,7 @@ static void UpdategAddress(void)
 {
     switch (g_connectWalletTileView.walletIndex) {
     case WALLET_LIST_SOLFARE:
+    case WALLET_LIST_HELIUM:
         UpdateSolEgAddress(GetCurrentSelectedIndex());
         break;
     default:
@@ -1522,6 +1546,7 @@ static const char *GetDerivationPathSelectDes(void)
 {
     switch (g_connectWalletTileView.walletIndex) {
     case WALLET_LIST_SOLFARE:
+    case WALLET_LIST_HELIUM:
         return _("derivation_path_select_sol");
     default:
         return _("derivation_path_select_eth");
@@ -1532,6 +1557,7 @@ static const char *GetChangeDerivationAccountType(int i)
 {
     switch (g_connectWalletTileView.walletIndex) {
     case WALLET_LIST_SOLFARE:
+    case WALLET_LIST_HELIUM:
         if (i == 0) {
             return _("receive_sol_more_t_base_path");
         } else if (i == 1) {
@@ -1548,6 +1574,7 @@ static const char *GetChangeDerivationPath(int i)
 {
     switch (g_connectWalletTileView.walletIndex) {
     case WALLET_LIST_SOLFARE:
+    case WALLET_LIST_HELIUM:
         return g_solChangeDerivationList[i].path;
     default:
         return g_changeDerivationList[i].path;
@@ -1604,7 +1631,7 @@ static void ShowEgAddressCont(lv_obj_t *egCont)
     lv_obj_align_to(label, prevLabel, LV_ALIGN_OUT_RIGHT_MID, 12, 0);
     g_egAddress[0] = label;
 
-    if (!(g_connectWalletTileView.walletIndex == WALLET_LIST_SOLFARE &&
+    if (!(g_connectWalletTileView.walletIndex == WALLET_LIST_SOLFARE || g_connectWalletTileView.walletIndex == WALLET_LIST_HELIUM &&
             GetCurrentSelectedIndex() == SOLBip44ROOT)) {
         index = GuiCreateNoticeLabel(egCont, _("1"));
         lv_obj_align_to(index, prevLabel, LV_ALIGN_OUT_BOTTOM_LEFT, 0, 4);
