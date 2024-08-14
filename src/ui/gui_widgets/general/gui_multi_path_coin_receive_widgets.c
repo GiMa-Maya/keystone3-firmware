@@ -184,6 +184,7 @@ static void InitDerivationPathDesc(uint8_t chain)
         g_derivationPathDescs = GetDerivationPathDescs(ETH_DERIVATION_PATH_DESC);
         break;
     case HOME_WALLET_CARD_SOL:
+    case HOME_WALLET_CARD_HNT:
         g_derivationPathDescs = GetDerivationPathDescs(SOL_DERIVATION_PATH_DESC);
         break;
     case HOME_WALLET_CARD_ADA:
@@ -250,6 +251,10 @@ void GuiMultiPathCoinReceiveRefresh(void)
         case HOME_WALLET_CARD_SOL:
             snprintf_s(walletTitle, BUFFER_SIZE_32, _("receive_coin_fmt"), "SOL");
             SetCoinWallet(g_pageWidget->navBarWidget, CHAIN_SOL, walletTitle);
+            break;
+        case HOME_WALLET_CARD_HNT:
+            snprintf_s(walletTitle, BUFFER_SIZE_32, _("receive_coin_fmt"), "HNT");
+            SetCoinWallet(g_pageWidget->navBarWidget, CHAIN_HNT, walletTitle);
             break;
         case HOME_WALLET_CARD_ADA:
             snprintf_s(walletTitle, BUFFER_SIZE_32, _("receive_coin_fmt"), "ADA");
@@ -475,6 +480,9 @@ static void GetHint(char *hint)
     case HOME_WALLET_CARD_SOL:
         snprintf_s(hint, BUFFER_SIZE_256, _("receive_coin_hint_fmt"), "SOL");
         break;
+    case HOME_WALLET_CARD_HNT:
+        snprintf_s(hint, BUFFER_SIZE_256, _("receive_coin_hint_fmt"), "HNT/SOL");
+        break;
     case HOME_WALLET_CARD_ADA:
         snprintf_s(hint, BUFFER_SIZE_256, _("receive_coin_hint_fmt"), "ADA");
         break;
@@ -624,6 +632,7 @@ static void GetChangePathLabelHint(char* hint)
         snprintf_s(hint, BUFFER_SIZE_128, _("derivation_path_select_eth"));
         return;
     case HOME_WALLET_CARD_SOL:
+    case HOME_WALLET_CARD_HNT:
         snprintf_s(hint, BUFFER_SIZE_128, _("derivation_path_select_sol"));
         return;
     case HOME_WALLET_CARD_ADA:
@@ -640,6 +649,7 @@ static const char* GetChangePathItemTitle(uint32_t i)
     case HOME_WALLET_CARD_ETH:
         return (char *)g_ethPaths[i].title;
     case HOME_WALLET_CARD_SOL:
+    case HOME_WALLET_CARD_HNT:
         if (i == 0) {
             return _("receive_sol_more_t_base_path");
         } else if (i == 1) {
@@ -731,6 +741,7 @@ static uint32_t GetDerivedPathTypeCount()
     case HOME_WALLET_CARD_ETH:
         return 3;
     case HOME_WALLET_CARD_SOL:
+    case HOME_WALLET_CARD_HNT:
         return 3;
     case HOME_WALLET_CARD_ADA:
         return 2;
@@ -875,6 +886,9 @@ static bool IsOnlyOneAddress(uint8_t addrType)
     if (g_chainCard == HOME_WALLET_CARD_SOL && addrType == 1) {
         return true;
     }
+    if (g_chainCard == HOME_WALLET_CARD_HNT && addrType == 1) {
+        return true;
+    }
     return false;
 }
 
@@ -934,6 +948,7 @@ static int GetMaxAddressIndex(void)
     case HOME_WALLET_CARD_ETH:
         return GetEthMaxAddressIndex();
     case HOME_WALLET_CARD_SOL:
+    case HOME_WALLET_CARD_HNT:
         return GetSOLMaxAddressIndex();
     case HOME_WALLET_CARD_ADA:
         return GetADAMaxAddressIndex();
@@ -974,6 +989,7 @@ static TUTORIAL_LIST_INDEX_ENUM GetTutorialIndex()
     case HOME_WALLET_CARD_ETH:
         return TUTORIAL_ETH_RECEIVE;
     case HOME_WALLET_CARD_SOL:
+    case HOME_WALLET_CARD_HNT:
         return TUTORIAL_SOL_RECEIVE;
     case HOME_WALLET_CARD_ADA:
         return TUTORIAL_ADA_RECEIVE;
@@ -1023,6 +1039,7 @@ static uint32_t GetPathIndex(void)
         return g_ethPathIndex[g_currentAccountIndex];
         break;
     case HOME_WALLET_CARD_SOL:
+    case HOME_WALLET_CARD_HNT:
         return g_solPathIndex[g_currentAccountIndex];
         break;
     case HOME_WALLET_CARD_ADA:
@@ -1042,6 +1059,7 @@ static void SetPathIndex(uint32_t index)
         g_ethPathIndex[g_currentAccountIndex] = index;
         break;
     case HOME_WALLET_CARD_SOL:
+    case HOME_WALLET_CARD_HNT:
         g_solPathIndex[g_currentAccountIndex] = index;
         break;
     case HOME_WALLET_CARD_ADA:
@@ -1154,6 +1172,7 @@ static void GetPathItemSubTitle(char* subTitle, int index, uint32_t maxLen)
         GetEthPathItemSubTittle(subTitle, index, maxLen);
         break;
     case HOME_WALLET_CARD_SOL:
+    case HOME_WALLET_CARD_HNT:
         GetSolPathItemSubTitle(subTitle, index, maxLen);
         break;
     case HOME_WALLET_CARD_ADA:
@@ -1277,6 +1296,7 @@ static void ModelGetAddress(uint32_t index, AddressDataItem_t *item)
         ModelGetEthAddress(index, item);
         break;
     case HOME_WALLET_CARD_SOL:
+    case HOME_WALLET_CARD_HNT:
         ModelGetSolAddress(index, item);
         break;
     case HOME_WALLET_CARD_ADA:
@@ -1372,6 +1392,7 @@ static void SetCurrentSelectIndex(uint32_t selectIndex)
         g_ethSelectIndex[g_currentAccountIndex] = selectIndex;
         break;
     case HOME_WALLET_CARD_SOL:
+    case HOME_WALLET_CARD_HNT:
         g_solSelectIndex[g_currentAccountIndex] = selectIndex;
         break;
     case HOME_WALLET_CARD_ADA:
@@ -1388,6 +1409,7 @@ static uint32_t GetCurrentSelectIndex()
     case HOME_WALLET_CARD_ETH:
         return g_ethSelectIndex[g_currentAccountIndex];
     case HOME_WALLET_CARD_SOL:
+    case HOME_WALLET_CARD_HNT:
         return g_solSelectIndex[g_currentAccountIndex];
     case HOME_WALLET_CARD_ADA:
         return g_adaSelectIndex[g_currentAccountIndex];
